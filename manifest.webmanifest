@@ -1,0 +1,25 @@
+{
+  "name": "CHẤM CÔNG",
+  "short_name": "CHẤM CÔNG",
+  "description": "Bảng chấm công Full V2.4.5",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f6f9",
+  "theme_color": "#0056b3",
+  "icons": [
+    {
+      "src": "./CHAM_CONG_ICON_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./CHAM_CONG_ICON_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

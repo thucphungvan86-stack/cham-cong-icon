@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0056b3">
+  <meta name="application-name" content="CHẤM CÔNG">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CHẤM CÔNG">
+  <title>CHẤM CÔNG</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./CHAM_CONG_ICON_180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./CHAM_CONG_ICON_192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./CHAM_CONG_ICON_512.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    html, body { width:100%; height:100%; margin:0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:#f4f6f9;
+      overflow:hidden;
+    }
+    #appFrame {
+      position:fixed; inset:0; width:100%; height:100%; border:0; background:#f4f6f9;
+    }
+    #splash {
+      position:fixed; inset:0; z-index:20;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:16px; padding:24px; background:linear-gradient(180deg,#0c77dd,#08377f);
+      color:#fff; text-align:center; transition:opacity .25s ease;
+    }
+    #splash.hide { opacity:0; pointer-events:none; }
+    #splash img { width:132px; height:132px; border-radius:28px; box-shadow:0 10px 28px rgba(0,0,0,.25); }
+    #splash h1 { margin:0; font-size:25px; }
+    #splash p { margin:0; max-width:330px; line-height:1.5; opacity:.92; font-size:14px; }
+    .spinner {
+      width:34px; height:34px; border:4px solid rgba(255,255,255,.35);
+      border-top-color:#fff; border-radius:50%; animation:spin .85s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    #directOpen {
+      position:fixed; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); z-index:30;
+      border:0; border-radius:999px; padding:10px 14px; background:#0056b3; color:#fff;
+      font-weight:700; font-size:12px; box-shadow:0 4px 14px rgba(0,0,0,.22); cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <img src="./CHAM_CONG_ICON_180.png" alt="CHẤM CÔNG">
+    <h1>CHẤM CÔNG</h1>
+    <p>Đang mở Bảng chấm công Full V2.4.5…</p>
+    <div class="spinner" aria-label="Đang tải"></div>
+  </div>
+
+  <iframe
+    id="appFrame"
+    title="BẢNG CHẤM CÔNG FULL"
+    src="https://script.google.com/macros/s/AKfycbziLTzinP0sog6-_Ar2PKcTbpOUbZkwSQ9hKWUUzxMj_zHXa3Tl8nV8mD3i5Bs6CRQJ/exec"
+    allow="clipboard-read; clipboard-write"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+
+  <button id="directOpen" type="button" title="Mở trực tiếp Web App">MỞ TRỰC TIẾP</button>
+
+  <script>
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbziLTzinP0sog6-_Ar2PKcTbpOUbZkwSQ9hKWUUzxMj_zHXa3Tl8nV8mD3i5Bs6CRQJ/exec';
+    const frame = document.getElementById('appFrame');
+    const splash = document.getElementById('splash');
+
+    frame.addEventListener('load', () => {
+      setTimeout(() => splash.classList.add('hide'), 250);
+    });
+
+    // Không để màn hình chờ treo quá lâu nếu trình duyệt không phát sự kiện load.
+    setTimeout(() => splash.classList.add('hide'), 4500);
+
+    document.getElementById('directOpen').addEventListener('click', () => {
+      window.location.href = WEB_APP_URL;
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
