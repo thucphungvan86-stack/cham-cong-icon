@@ -10,10 +10,13 @@
   <meta name="apple-mobile-web-app-title" content="CHẤM CÔNG">
   <title>CHẤM CÔNG</title>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="./CHAM_CONG_ICON_180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./CHAM_CONG_ICON_192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="./CHAM_CONG_ICON_512.png">
-  <link rel="manifest" href="./manifest.webmanifest">
+  <!-- V2.4.6: đổi tên file icon để tránh Safari/iOS dùng cache icon cũ -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./CHAM_CONG_ICON_V2_4_6_180.png">
+  <link rel="apple-touch-icon-precomposed" href="./CHAM_CONG_ICON_V2_4_6_180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./CHAM_CONG_ICON_V2_4_6_192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./CHAM_CONG_ICON_V2_4_6_512.png">
+  <link rel="shortcut icon" type="image/png" href="./CHAM_CONG_ICON_V2_4_6_192.png">
+  <link rel="manifest" href="./manifest.webmanifest?v=2.4.6">
 
   <style>
     :root { color-scheme: light; }
@@ -51,15 +54,15 @@
 </head>
 <body>
   <div id="splash">
-    <img src="./CHAM_CONG_ICON_180.png" alt="CHẤM CÔNG">
+    <img src="./CHAM_CONG_ICON_V2_4_6_180.png" alt="CHẤM CÔNG V2.4.6">
     <h1>CHẤM CÔNG</h1>
-    <p>Đang mở Bảng chấm công Full V2.4.5…</p>
+    <p>Đang mở Bảng chấm công Full V2.4.6…</p>
     <div class="spinner" aria-label="Đang tải"></div>
   </div>
 
   <iframe
     id="appFrame"
-    title="BẢNG CHẤM CÔNG FULL"
+    title="BẢNG CHẤM CÔNG FULL V2.4.6"
     src="https://script.google.com/macros/s/AKfycbziLTzinP0sog6-_Ar2PKcTbpOUbZkwSQ9hKWUUzxMj_zHXa3Tl8nV8mD3i5Bs6CRQJ/exec"
     allow="clipboard-read; clipboard-write"
     referrerpolicy="no-referrer-when-downgrade">
@@ -68,6 +71,7 @@
   <button id="directOpen" type="button" title="Mở trực tiếp Web App">MỞ TRỰC TIẾP</button>
 
   <script>
+    const APP_VERSION = '2.4.6';
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbziLTzinP0sog6-_Ar2PKcTbpOUbZkwSQ9hKWUUzxMj_zHXa3Tl8nV8mD3i5Bs6CRQJ/exec';
     const frame = document.getElementById('appFrame');
     const splash = document.getElementById('splash');
@@ -76,7 +80,6 @@
       setTimeout(() => splash.classList.add('hide'), 250);
     });
 
-    // Không để màn hình chờ treo quá lâu nếu trình duyệt không phát sự kiện load.
     setTimeout(() => splash.classList.add('hide'), 4500);
 
     document.getElementById('directOpen').addEventListener('click', () => {
@@ -84,8 +87,11 @@
     });
 
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      window.addEventListener('load', async () => {
+        try {
+          const reg = await navigator.serviceWorker.register('./sw.js?v=' + APP_VERSION);
+          if (reg && reg.update) reg.update();
+        } catch (_) {}
       });
     }
   </script>
