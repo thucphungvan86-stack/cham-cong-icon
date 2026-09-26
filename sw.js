@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cham-cong-launcher-v2-4-6-iconfix-1';
+const CACHE_NAME = 'cham-cong-launcher-v2-4-6-report-link-2';
 const ASSETS = [
   './',
   './index.html',
