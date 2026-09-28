@@ -2,34 +2,138 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        content="width=device-width,
+                 initial-scale=1.0,
+                 maximum-scale=1.0,
+                 user-scalable=no,
+                 viewport-fit=cover">
 
   <title>CHẤM CÔNG V2.4.6</title>
 
   <meta name="theme-color" content="#0b5fc6">
 
+  <!-- ICON IPHONE -->
   <link rel="apple-touch-icon"
-        href="CHAM_CONG_ICON_V2_4_6_180.png?v=2463">
+        href="./CHAM_CONG_ICON_V2_4_6_180.png?v=2465">
 
+  <link rel="apple-touch-icon-precomposed"
+        href="./CHAM_CONG_ICON_V2_4_6_180.png?v=2465">
+
+  <!-- ICON ANDROID / CHROME -->
   <link rel="icon"
         type="image/png"
         sizes="192x192"
-        href="CHAM_CONG_ICON_V2_4_6_192.png?v=2463">
+        href="./CHAM_CONG_ICON_V2_4_6_192.png?v=2465">
 
   <link rel="manifest"
-        href="manifest.webmanifest?v=2463">
+        href="./manifest.webmanifest?v=2465">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    #appFrame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #openDirect {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 99999;
+
+      border: none;
+      border-radius: 8px;
+
+      padding: 10px 14px;
+
+      background: #0b5fc6;
+      color: white;
+
+      font-weight: bold;
+      font-size: 13px;
+
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
+<iframe id="appFrame"></iframe>
+
+<button id="openDirect">
+  MỞ TRỰC TIẾP
+</button>
+
 <script>
+
 const APP_URL =
 "https://script.google.com/macros/s/AKfycbwRwj2PIPuu90VYXc1o7KKrH7gslTCQpY5S8eBkC876TMppm0GxkL_j2o4cQ1lIh2uP/exec";
 
-window.location.replace(
-  APP_URL + "?launcher=2.4.6.4&t=" + Date.now()
-);
+const VERSION = "2.4.6.5";
+
+const appUrl =
+  APP_URL +
+  "?launcher=" +
+  VERSION +
+  "&t=" +
+  Date.now();
+
+document.getElementById("appFrame").src = appUrl;
+
+document.getElementById("openDirect").onclick = function () {
+  window.open(appUrl, "_blank");
+};
+
+// Chỉ hiện nút dự phòng sau 7 giây
+setTimeout(function () {
+  document.getElementById("openDirect").style.display = "block";
+}, 7000);
+
+
+// XÓA SERVICE WORKER CŨ
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker
+    .getRegistrations()
+    .then(function (registrations) {
+
+      registrations.forEach(function (registration) {
+        registration.unregister();
+      });
+
+    });
+}
+
+
+// XÓA CACHE CŨ
+if ("caches" in window) {
+
+  caches.keys().then(function (names) {
+
+    names.forEach(function (name) {
+      caches.delete(name);
+    });
+
+  });
+}
+
 </script>
 
 </body>
