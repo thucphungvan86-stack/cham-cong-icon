@@ -40,37 +40,13 @@
 </head>
 
 <body>
-
-<iframe id="app"></iframe>
-
 <script>
-const APP_URL =
-"https://script.google.com/macros/s/AKfycbzoj6YDvTdDYASXjNnEt5WzifJl6fx0VwORD6Ph0-P30UYP4sHo12kg9hptrqgKQ6o/exec";
+  const APP_URL =
+    "https://script.google.com/macros/s/AKfycbzoj6YDvTdDYASXjNnEt5WzifJl6fx0VwORD6Ph0-P30UYP4sHo12kg9hptrqgKQ6o/exec";
 
-// Xóa service worker cũ
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(reg) {
-      reg.unregister();
-    });
-  });
-}
-
-// Xóa cache launcher cũ
-if ("caches" in window) {
-  caches.keys().then(function(keys) {
-    keys.forEach(function(key) {
-      caches.delete(key);
-    });
-  });
-}
-
-// Luôn gọi Apps Script mới nhất
-document.getElementById("app").src =
-  APP_URL +
-  "?launcher=2.4.6.2&time=" +
-  Date.now();
+  window.location.replace(
+    APP_URL + "?launcher=2.4.6.3&t=" + Date.now()
+  );
 </script>
-
 </body>
 </html>
